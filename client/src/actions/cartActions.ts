@@ -1,9 +1,10 @@
 import { IItem } from "../../../_models/item";
+import { ICart } from "../../../_models/cart";
 
 export enum CartActionTypes {
-    ADD = "ADD",
-    REMOVE = "REMOVE",
-    GET = "GET"
+    ADD_ITEM = "ADD_ITEM",
+    REMOVE_ITEM = "REMOVE_ITEM",
+    SET_CART = "SET_CART"
 }
 
 /**
@@ -11,7 +12,7 @@ export enum CartActionTypes {
  * @export
  * @interface IAddItemToCart
  */
-export interface IAddItemToCart { type: CartActionTypes.ADD, payload: { item: IItem } }
+export interface IAddItemToCart { type: CartActionTypes.ADD_ITEM, payload: { item: IItem } };
 
 /**
  * @description Returns an add cart item action
@@ -19,7 +20,7 @@ export interface IAddItemToCart { type: CartActionTypes.ADD, payload: { item: II
  */
 export const addItemToCartActionCreator = (item: IItem): IAddItemToCart => {
     return {
-        type: CartActionTypes.ADD,
+        type: CartActionTypes.ADD_ITEM,
         payload: {
             item: item
         }
@@ -31,7 +32,7 @@ export const addItemToCartActionCreator = (item: IItem): IAddItemToCart => {
  * @export
  * @interface IRemoveItemFromCart
  */
-export interface IRemoveItemFromCart { type: CartActionTypes.REMOVE, payload: { userId: string, itemName: string } }
+export interface IRemoveItemFromCart { type: CartActionTypes.REMOVE_ITEM, payload: { userId: string, itemName: string } };
 
 /**
  * @description Returns an set categories action
@@ -40,7 +41,18 @@ export interface IRemoveItemFromCart { type: CartActionTypes.REMOVE, payload: { 
 // TODO fix param
 export const removeItemFromCartActionCreator = (param: any): IRemoveItemFromCart => {
     return {
-        type: CartActionTypes.REMOVE,
+        type: CartActionTypes.REMOVE_ITEM,
         payload: param
+    }
+}
+
+export interface ISetCart { type: CartActionTypes.SET_CART, payload: { cart: ICart } };
+
+export const setCartActionCreator = (cart: ICart) => {
+    return {
+        type: CartActionTypes.SET_CART,
+        payload: {
+            cart
+        }
     }
 }

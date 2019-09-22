@@ -159,11 +159,13 @@ const getCart = async (cartOperation: ICartGet) => {
         userId: cartOperation.userId
     }) as ICart;
 
-    existingCart.totalPrice = formatPrice(
-        existingCart.itemQuantities.reduce((acc, curr) => {
-            return acc + (parseFloat(curr.item.price) * curr.quantity);
-        }, 0)
-    );
+    if (existingCart) {
+        existingCart.totalPrice = formatPrice(
+            existingCart.itemQuantities.reduce((acc, curr) => {
+                return acc + (parseFloat(curr.item.price) * curr.quantity);
+            }, 0)
+        );
+    }
 
     return existingCart;
 }

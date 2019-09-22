@@ -15,7 +15,7 @@ db.items.insertMany([{
     },
     {
         itemName: "Chisel",
-        price: 13.9
+        price: 13.90
     },
     {
         itemName: "Hacksaw",

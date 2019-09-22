@@ -30,7 +30,7 @@ const Footer: React.FC = () => {
     return (<AppBar position="static" className={classes.appBar}>
         <Grid className={classes.grid} container justify="center" alignContent="center">
             <Typography variant="h6">
-                A truly beefy solution
+                Less is more
             </Typography>
             <div className={classes.svg}>
                 <Icon

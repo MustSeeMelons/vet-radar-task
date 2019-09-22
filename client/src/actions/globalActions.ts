@@ -1,18 +1,29 @@
 export enum GlobalActionTypes {
-    ADD_RANDOM_PIC = "ADD_RANDOM_PIC"
+    SET_USER_ID = "SET_USER_ID",
+    TOGGLE_CONTROLS = "TOGGLE_CONTROLS"
 }
 
-export interface IAddRandomPic {
-    type: GlobalActionTypes.ADD_RANDOM_PIC, payload: {
-        pic: any
+export interface ISetUserId {
+    type: GlobalActionTypes.SET_USER_ID, payload: {
+        userId: string
     }
 }
 
-export const addRandomPicActionCreator = (image: any): IAddRandomPic => {
+export const setUserIdActionCreator = (userId: string): ISetUserId => {
     return {
-        type: GlobalActionTypes.ADD_RANDOM_PIC,
+        type: GlobalActionTypes.SET_USER_ID,
         payload: {
-            pic: image
+            userId
         }
+    }
+}
+
+export interface IToggleControls {
+    type: GlobalActionTypes.TOGGLE_CONTROLS
+}
+
+export const toggleControlsActionCreator = (): IToggleControls => {
+    return {
+        type: GlobalActionTypes.TOGGLE_CONTROLS
     }
 }
