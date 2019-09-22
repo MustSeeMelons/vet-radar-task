@@ -1,5 +1,5 @@
-import { IAddItemToCart, IRemoveItemFromCart, ISetCart } from "./cartActions";
+import { ISetCart } from "./cartActions";
 import { ISetItems } from "./itemActions";
-import { ISetUserId } from "./globalActions";
+import { ISetUserId, ISetControls, ISetErr } from "./globalActions";
 
-export type Action = IAddItemToCart | IRemoveItemFromCart | ISetItems | ISetUserId | ISetCart;
+export type Action = ISetItems | ISetUserId | ISetCart | ISetControls | ISetErr;

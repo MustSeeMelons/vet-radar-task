@@ -1,6 +1,7 @@
 export enum GlobalActionTypes {
     SET_USER_ID = "SET_USER_ID",
-    TOGGLE_CONTROLS = "TOGGLE_CONTROLS"
+    SET_CONTROLS = "TOGGLE_CONTROLS",
+    SET_ERR = "SET_ERR"
 }
 
 export interface ISetUserId {
@@ -18,12 +19,34 @@ export const setUserIdActionCreator = (userId: string): ISetUserId => {
     }
 }
 
-export interface IToggleControls {
-    type: GlobalActionTypes.TOGGLE_CONTROLS
+export interface ISetControls {
+    type: GlobalActionTypes.SET_CONTROLS,
+    payload: {
+        value: boolean
+    }
 }
 
-export const toggleControlsActionCreator = (): IToggleControls => {
+export const setControlsActionCreator = (value: boolean = false): ISetControls => {
     return {
-        type: GlobalActionTypes.TOGGLE_CONTROLS
+        type: GlobalActionTypes.SET_CONTROLS,
+        payload: {
+            value
+        }
+    }
+}
+
+export interface ISetErr {
+    type: GlobalActionTypes.SET_ERR,
+    payload: {
+        err: boolean
+    }
+}
+
+export const setErrActionCreator = (err: boolean = false): ISetErr => {
+    return {
+        type: GlobalActionTypes.SET_ERR,
+        payload: {
+            err
+        }
     }
 }

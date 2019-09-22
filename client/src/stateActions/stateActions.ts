@@ -1,12 +1,11 @@
 import { store } from "../store/store";
 import { itemApi, cartApi } from "../api/api";
 import { setItemsActionCreator } from "../actions/itemActions";
-import { getUserId, UTILS, setUserId } from "../util/storage";
-import { setUserIdActionCreator } from "../actions/globalActions";
+import { getUserId, UTILS, setUserId } from "../util/localStorage";
+import { setUserIdActionCreator, setControlsActionCreator, setErrActionCreator } from "../actions/globalActions";
 import { IItem } from "../../../_models/item";
 import { setCartActionCreator } from "../actions/cartActions";
 import { ICart } from "../../../_models/cart";
-import { async } from "q";
 
 /**
  * FIXME: A good place of Redux Thunk?
@@ -14,10 +13,19 @@ import { async } from "q";
  */
 const stateActions = {
     loadItems: async (): Promise<void> => {
-        const listResponse: any = await itemApi.fetchItems();
-        store.dispatch(setItemsActionCreator(listResponse.items));
+        try {
+            store.dispatch(setControlsActionCreator(true));
+            const listResponse: any = await itemApi.fetchItems();
+            store.dispatch(setItemsActionCreator(listResponse.items));
+            store.dispatch(setErrActionCreator());
+        } catch (e) {
+            store.dispatch(setErrActionCreator(true));
+        } finally {
+            store.dispatch(setControlsActionCreator());
+        }
+
     },
-    handleSessionSetup: () => {
+    handleSessionSetup: (): void => {
         let userId = getUserId();
         if (!userId) {
             userId = UTILS.generateUserId();
@@ -26,29 +34,41 @@ const stateActions = {
 
         store.dispatch(setUserIdActionCreator(userId));
     },
-    getCart: async (userId: string) => {
+    getCart: async (userId: string): Promise<void> => {
         try {
+            store.dispatch(setControlsActionCreator(true));
             const cart = await cartApi.getCart(userId) as ICart;
             if (cart) {
                 store.dispatch(setCartActionCreator(cart));
             }
+            store.dispatch(setErrActionCreator());
         } catch (e) {
-            // show err info
+            store.dispatch(setErrActionCreator(true));
+        } finally {
+            store.dispatch(setControlsActionCreator());
         }
 
     },
-    addItemToCart: async (userId: string, item: IItem) => {
+    addItemToCart: async (userId: string, item: IItem): Promise<void> => {
         try {
+            store.dispatch(setControlsActionCreator(true));
             await cartApi.addToCart(userId, item);
+            store.dispatch(setErrActionCreator());
         } catch (e) {
-            // show err info
+            store.dispatch(setErrActionCreator(true));
+        } finally {
+            store.dispatch(setControlsActionCreator());
         }
     },
-    removeItemFromCaer: async (userId: string, item: IItem) => {
+    removeItemFromCaer: async (userId: string, item: IItem): Promise<void> => {
         try {
+            store.dispatch(setControlsActionCreator(true));
             await cartApi.removeFromCart(userId, item);
+            store.dispatch(setErrActionCreator());
         } catch (e) {
-            // show err info
+            store.dispatch(setErrActionCreator(true));
+        } finally {
+            store.dispatch(setControlsActionCreator());
         }
     }
 }

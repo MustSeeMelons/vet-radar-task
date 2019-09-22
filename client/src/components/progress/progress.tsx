@@ -4,10 +4,15 @@ import { CircularProgress } from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        circularProgress: {
-            margin: "auto",
+        overlay: {
+            position: "fixed",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
             width: "100%",
-            height: "100%"
+            height: "100%",
+            backgroundColor: `rgba(0, 0, 0, 0.2)`,
+            zIndex: 1000
         }
     })
 )
@@ -15,7 +20,9 @@ const useStyles = makeStyles((theme: Theme) =>
 const Progress: React.FC = () => {
     const classes = useStyles();
 
-    return <CircularProgress className={classes.circularProgress} />
+    return <div className={classes.overlay}>
+        <CircularProgress />
+    </div>
 }
 
 export {

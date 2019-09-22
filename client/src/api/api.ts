@@ -2,17 +2,19 @@ import Axios, { AxiosRequestConfig } from "axios";
 import { URLS } from "./apiConfig";
 import { ICart } from "../../../_models/cart";
 import { IItem } from "../../../_models/item";
+import { IItemListResponse } from "../../../_responses/itemListResponse";
 
 const axiosConfig: AxiosRequestConfig = {
     timeout: 30000
 }
 
-export const itemApi = {
-    fetchItems: async (): Promise<any> => {
+// FIXME It would be a great idea to validate the response object
 
+export const itemApi = {
+    fetchItems: async (): Promise<IItemListResponse> => {
         const response = await Axios.get(URLS.ITEM_LIST_URL, axiosConfig);
 
-        return response.data as any;
+        return response.data as IItemListResponse;
     }
 }
 

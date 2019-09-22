@@ -12,7 +12,8 @@ const useStyles = makeStyles((theme: Theme) =>
             bottom: 0,
         },
         grid: {
-            margin: "10px"
+            marginTop: "10px",
+            marginBottom: "10px"
         },
         svg: {
             display: "flex",

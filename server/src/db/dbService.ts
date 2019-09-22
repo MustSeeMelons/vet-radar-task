@@ -1,13 +1,19 @@
 import { ICartItemAdd } from "../../../_requests/cartItemAdd";
 import { ICartItemRemove } from "../../../_requests/cartItemRemove";
 import { ICartGet } from "../../../_requests/cartGet";
+import { IItemListResponse } from "../../../_responses/itemListResponse";
 import { ICart, ICartItemQuantity } from "../../../_models/cart";
 import { MongoClient, Db } from "mongodb";
 import _ from "lodash";
 import { MONGO_URL, DB_URL, CART_COLLECTION, ITEM_COLLECTION } from "../mongoConfig";
 import { IItem } from "../../../_models/item";
-import { SUCCESS, NO_CART_ERR, NO_SUCH_ITEM_ERR } from "../../../_responses";
+import { SUCCESS, NO_CART_ERR, NO_SUCH_ITEM_ERR, BaseMsg } from "../../../_responses";
 import { formatPrice } from "../../../_utils/utils";
+
+/**
+ * FIXME: Should validate incoming requests
+ * FIXME: Add method do delete all items at once, would make for a better UX
+ */
 
 // Helper for obtaining a db instance
 const obtainDb = async (): Promise<Db> => {
@@ -22,7 +28,7 @@ const obtainDb = async (): Promise<Db> => {
 }
 
 // Probably should split into multiple services in the future
-const addItemToCart = async (cartOperation: ICartItemAdd) => {
+const addItemToCart = async (cartOperation: ICartItemAdd): Promise<BaseMsg> => {
     const db = await obtainDb();
 
     const collection = db.collection(CART_COLLECTION);
@@ -76,7 +82,7 @@ const addItemToCart = async (cartOperation: ICartItemAdd) => {
     return SUCCESS;
 }
 
-const removeItemFromCart = async (cartOperation: ICartItemRemove) => {
+const removeItemFromCart = async (cartOperation: ICartItemRemove): Promise<BaseMsg> => {
     const db = await obtainDb();
 
     const collection = db.collection(CART_COLLECTION);
@@ -124,7 +130,7 @@ const removeItemFromCart = async (cartOperation: ICartItemRemove) => {
     }
 }
 
-const listItems = async () => {
+const listItems = async (): Promise<BaseMsg | IItemListResponse> => {
     const db = await obtainDb();
 
     const collection = db.collection(ITEM_COLLECTION);
@@ -133,12 +139,13 @@ const listItems = async () => {
 
     let results: IItem[] = [];
 
+    // Keeping things a sync way
     const wrap = new Promise<void>((resolve) => {
-        documents.toArray((err, categories) => {
+        documents.toArray((err, items) => {
             if (err) {
                 throw err;
             }
-            results = categories
+            results = items
             resolve();
         })
     });
@@ -150,7 +157,7 @@ const listItems = async () => {
     };
 }
 
-const getCart = async (cartOperation: ICartGet) => {
+const getCart = async (cartOperation: ICartGet): Promise<ICart> => {
     const db = await obtainDb();
 
     const collection = db.collection(CART_COLLECTION);

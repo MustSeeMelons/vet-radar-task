@@ -27,7 +27,7 @@ export interface State {
     cartReducer: CartState;
 }
 
-// Initial states for our states
+// Initial states
 export const itemInitialState: ItemState = {
     items: []
 }

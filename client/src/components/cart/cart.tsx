@@ -1,11 +1,11 @@
 import React from "react";
 import { Grid, Card, CardContent, Divider, Typography, CardHeader, Button, Theme, Box } from "@material-ui/core";
 import { connect } from "react-redux";
-import { State } from "../store/store";
-import { isCartEmpty } from "../selectors/cartSelectors";
-import { ICart, ICartItemQuantity } from "../../../_models/cart";
+import { State } from "../../store/store";
+import { isCartEmpty } from "../../selectors/cartSelectors";
+import { ICart, ICartItemQuantity } from "../../../../_models/cart";
 import { makeStyles, createStyles } from "@material-ui/styles";
-import { stateActions } from "../stateActions/stateActions";
+import { stateActions } from "../../stateActions/stateActions";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -22,6 +22,15 @@ const useStyles = makeStyles((theme: Theme) =>
             "&:last-child": {
                 padding: 0
             }
+        },
+        cardTexts: {
+            width: 200
+        },
+        cardActions: {
+
+        },
+        cardButton: {
+            margin: 5
         },
         itemGrid: {
             margin: 0,
@@ -44,6 +53,7 @@ interface CartProps {
     cart: ICart;
     isCartEmpty: boolean;
     userId: string;
+    lockControls: boolean;
 }
 
 const Cart: React.FC<CartProps> = (props) => {
@@ -67,20 +77,21 @@ const Cart: React.FC<CartProps> = (props) => {
                                 <Divider />
                                 <CardContent className={classes.cardContent}>
                                     <Grid container justify="space-between" alignItems="center">
-                                        <Typography variant="subtitle2">
-                                            {`${itemQuantity.item.price}$`}
-                                        </Typography>
-                                        <Typography variant="subtitle2">
-                                            {`${itemQuantity.quantity} pcs`}
-                                        </Typography>
-                                        <Button variant="outlined" color="primary" onClick={async () => {
-                                            await stateActions.addItemToCart(props.userId, itemQuantity.item);
-                                            await stateActions.getCart(props.userId);
-                                        }}>Add</Button>
-                                        <Button variant="outlined" color="secondary" onClick={async () => {
-                                            await stateActions.removeItemFromCaer(props.userId, itemQuantity.item);
-                                            await stateActions.getCart(props.userId);
-                                        }}>Remove</Button>
+                                        <Grid item className={classes.cardTexts}>
+                                            <Typography variant="h5">
+                                                {`${itemQuantity.item.price}$ - ${itemQuantity.quantity} pcs`}
+                                            </Typography>
+                                        </Grid>
+                                        <Grid item className={classes.cardActions}>
+                                            <Button className={classes.cardButton} disabled={props.lockControls} variant="outlined" color="primary" onClick={async () => {
+                                                await stateActions.addItemToCart(props.userId, itemQuantity.item);
+                                                await stateActions.getCart(props.userId);
+                                            }}>Add</Button>
+                                            <Button className={classes.cardButton} disabled={props.lockControls} variant="outlined" color="secondary" onClick={async () => {
+                                                await stateActions.removeItemFromCaer(props.userId, itemQuantity.item);
+                                                await stateActions.getCart(props.userId);
+                                            }}>Remove</Button>
+                                        </Grid>
                                     </Grid>
                                 </CardContent>
                             </Card>
@@ -91,11 +102,9 @@ const Cart: React.FC<CartProps> = (props) => {
             <Divider />
             <Grid container alignItems="flex-end" justify="center" className={classes.priceGrid}>
                 <Grid item>
-                    <Typography>
-                        <Box fontWeight={600}>
-                            {`Total: ${props.cart.totalPrice || "0.00"}$`}
-                        </Box>
-                    </Typography>
+                    <Box fontWeight={600}>
+                        {`Total: ${props.cart.totalPrice || "0.00"}$`}
+                    </Box>
                 </Grid>
             </Grid>
         </>
@@ -106,7 +115,8 @@ const mapStateToProps = (state: State) => {
     return {
         cart: state.cartReducer.cart,
         isCartEmpty: isCartEmpty(state),
-        userId: state.globalReducer.userId
+        userId: state.globalReducer.userId,
+        lockControls: state.globalReducer.lockControls
     }
 }
 

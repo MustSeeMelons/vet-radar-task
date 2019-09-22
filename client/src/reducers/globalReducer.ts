@@ -9,6 +9,23 @@ export const globalReducer = (state: GlobalState = globalInitialState, action: A
                 ...state,
                 userId: action.payload.userId
             }
+        case GlobalActionTypes.SET_CONTROLS:
+            if (state.lockControls !== action.payload.value) {
+                return {
+                    ...state,
+                    lockControls: action.payload.value
+                }
+            }
+            return state;
+        case GlobalActionTypes.SET_ERR: {
+            if (state.err !== action.payload.err) {
+                return {
+                    ...state,
+                    err: action.payload.err
+                }
+            }
+            return state;
+        }
         default:
             return state;
     }
