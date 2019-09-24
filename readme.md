@@ -9,6 +9,7 @@ Shopping cart API with Typescript.
 - Clone the repository
 - `docker-compose up` at the root level
     - ports `8080`, `3000` and `27017` must be available
+- Point your browser to `localhost:3000`
 
 ## The more involved setup
 - Clone the repository
@@ -20,6 +21,4 @@ Shopping cart API with Typescript.
     - `npm run init-db`
     - `npm install -g nodemon`
     - `npm start`
-
-
-
+- Point your browser to `localhost:3000`
