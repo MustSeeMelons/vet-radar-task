@@ -4,10 +4,6 @@ WORKDIR /usr/src/app
 
 COPY package*.json ./
 
-RUN npm install
-RUN npm install -g typescript
-RUN npm install -g serve
-
 COPY ./src/client ./client
 COPY ./src/_models ./_models
 COPY ./src/_requests ./_requests
@@ -15,6 +11,10 @@ COPY ./src/_responses ./_responses
 COPY ./src/_utils ./_utils
 
 WORKDIR /usr/src/app/client
+
+RUN npm install
+RUN npm install -g typescript
+RUN npm install -g serve
 
 RUN npm run build
 
