@@ -1,0 +1,27 @@
+version: '2'
+
+services:
+  mongo:
+    build:
+      context: ./src/server/db 
+      dockerfile: Dockerfile
+    ports:
+     - "27017:27017"
+
+  server:
+    build: 
+      dockerfile: ./src/server/Dockerfile
+      context: .
+    ports:
+     - "8080:8080"
+    environment:
+     - DOCKER=1
+
+  react:
+    build:
+      dockerfile: ./src/client/Dockerfile
+      context: .
+    ports:
+      - "3000:3000"
+    environment:
+     - DOCKER=1

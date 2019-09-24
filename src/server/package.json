@@ -1,0 +1,39 @@
+{
+    "name": "vet-radar-server",
+    "version": "0.1.0",
+    "description": "Magnificent.",
+    "license": "UNLICENSED",
+    "dependencies": {
+        "express": "4.17.1",
+        "mongodb": "3.3.0",
+        "body-parser": "1.19.0",
+        "chalk": "2.4.2",
+        "lodash": "4.17.15",
+        "cors": "2.8.5"
+    },
+    "devDependencies": {
+        "@types/node": "10.0.3",
+        "@types/express": "4.11.1",
+        "@types/mongodb": "3.2.2",
+        "@types/body-parser": "1.17.0",
+        "@types/chalk": "2.2.0",
+        "@types/lodash": "4.14.137",
+        "@types/cors": "2.8.6",
+        "nodemon": "1.19.1",
+        "typescript": "3.4.3",
+        "ts-node": "8.3.0"
+    },
+    "scripts": {
+        "start": "node --inspect=5858 -r ts-node/register ./src/index.ts",
+        "start:watch": "nodemon",
+        "build": "tsc",
+        "init-db": "node -r ts-node/register ./src/mongoInit.ts"
+    },
+    "nodemonConfig": {
+        "watch": [
+            "src"
+        ],
+        "exec": "npm start",
+        "ext": "ts"
+    }
+}
