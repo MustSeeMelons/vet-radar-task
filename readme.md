@@ -2,12 +2,24 @@
 Shopping cart API with Typescript. 
 
 ## Requirements
+- Node
 - Docker
 
-## Run/Build flow, relative to the root container
+## The easy setup
+- Clone the repository
+- `docker-compose up` at the root level
+    - ports `8080`, `3000` and `27017` must be available
+
+## The more involved setup
+- Clone the repository
+- Will need a local MongoDB running (with no security)
+- Run these commands from the root:
+    - `npm i`
+    - `npm run install-client`
+    - `npm run install-server`
+    - `npm run init-db`
+    - `npm install -g nodemon`
+    - `npm start`
 
 
-### TODO
-- Dockerm mongo data persistance on image update (?)
-- Docker compose for mongo
-- Docker compose everything
+

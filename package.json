@@ -8,6 +8,7 @@
     "scripts": {
         "install-client": "npm i --prefix src/client",
         "install-server": "npm i --prefix src/server",
+        "init-db": "npm run init-db --prefix src/server",
         "start-client": "npm start --prefix src/client",
         "start-server": "npm run start:watch --prefix src/server",
         "start": "concurrently \"npm run start-client\" \"npm run start-server\" --kill-others"
